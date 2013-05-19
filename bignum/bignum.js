@@ -138,7 +138,7 @@
 	 * @return string  和
 	 */
 	function divide(numStr1, numStr2) {
-		
+
 	};
 
 	/**
