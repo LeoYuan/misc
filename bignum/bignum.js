@@ -57,7 +57,6 @@
       numArrTemp2 = _convertToArray(numStr2),
       numArr1 = [],
       numArr2 = [],
-      
       isReverse = false;   // 是否反转了被减数和减数
 
     isReverse = _biggerThan(numArrTemp2, numArrTemp1);
@@ -138,7 +137,37 @@
    * @return string  和
    */
   function divide(numStr1, numStr2) {
+    var numArr1 = _convertToArray(numStr1),
+      numArr2 = _convertToArray(numStr2),
+      ret = {};
+    if (numStr2 === '0') {
+      throw new Error('divisor cannot be zero!');
+      return;
+    }
+    ret = _divide(numArr1, numArr2);
+    ret.quotient = ret.quotient.join('');
+    ret.remainder = ret.remainder.join('');
+    return ret;
+  };
 
+  function _divide(numArr1, numArr2) {
+    // 模拟人脑计算除法的过程，numLeft是被除数的左侧部分，numRight是右侧部分
+    var numLeft = [], numRight = numArr1,
+      ret = {quotient: [], remainder: []};
+    while (numRight.length) {
+      numLeft.push(numRight.shift());
+      for (var i=0; i<=9; i++) {
+        if (_biggerThan(_multi(numArr2, i), numLeft)) {
+          ret.quotient.push(i-1);
+          numLeft = _sub(numLeft, _multi(numArr2, i-1));
+          break;
+        }
+      }
+    }
+    ret.remainder = numLeft;
+    ret.quotient = _removeHeadingZero(ret.quotient);
+    ret.remainder = _removeHeadingZero(ret.remainder);
+    return ret;
   };
 
   /**
@@ -178,6 +207,8 @@
    * @return boolean
    */
   function _biggerThan(numArr1, numArr2) {
+    numArr1 = _removeHeadingZero(numArr1);
+    numArr2 = _removeHeadingZero(numArr2);
     if (numArr1.length > numArr2.length) {
       return true;
     } else if (numArr1.length < numArr2.length) {
