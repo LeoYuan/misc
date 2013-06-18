@@ -14,7 +14,7 @@
   }
 
   function _doAnagram(wordSize) {
-    if (wordSize === 1) {
+    if (wordSize === 0) {
       return;
     }
     // 假定选定其中一个字母，然后对其他字母做_doAnagram运算
@@ -22,7 +22,7 @@
     for (var i=0; i<wordSize; i++) {
       _doAnagram(wordSize-1);
       _rotate(wordSize);
-      if (wordSize === 2) {
+      if (wordSize === 1) {
         _printWord();
       }
     }
