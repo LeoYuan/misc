@@ -41,15 +41,20 @@ define(function (require, exports, module) {
     var count = 0, task, msgList = [];
     for (var i=0, taskLen=taskList.length; i<taskLen; i++) {
       task = taskList[i];
-      task.call(null, function(err, msg) {
-        msgList.push(msg);
+      task.call(null, createCallback(i));
+    }
+
+    // 为了能够按照异步任务定义的顺序来保存各自返回的数据，传入当前任务的下标
+    function createCallback(index) {
+      return function(err, msg) {
+        msgList[index] = msg;
         count++;
         if (count === taskLen) {
           if (typeof onComplete === "function") {
             onComplete(null, msgList);
           }
         }
-      })
+      }
     }
   }
 
