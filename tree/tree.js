@@ -51,6 +51,10 @@ define(function (require, exports, module) {
     return !failed;
   }
 
+  // TODO 不够完善，应该分待删除节点无子节点、一个子节点、二个子节点的情况
+  // 1. 无子节点     直接删除
+  // 2. 有一个子节点    把待删除节点的左(右)子节点挂到父节点上就行
+  // 3. 有两个子节点    找到待删除节点的中序遍历时的后继节点，来替代待删除节点就行
   /**
    * delete方法
    * @param  Int  id  树节点id
